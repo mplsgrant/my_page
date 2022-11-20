@@ -10,12 +10,6 @@ pub fn run() -> Result<(), JsValue> {
     let document = window.document().expect("should have a document on window");
     let body = document.body().expect("document should have a body");
 
-    // Manufacture the element we're gonna append
-    let val = document.create_element("p")?;
-    val.set_text_content(Some("Hello from Rust!"));
-
-    body.append_child(&val)?;
-
     // Write to console.log
     let a: JsValue = "hello from run()".into();
     web_sys::console::log_1(&a);
@@ -28,8 +22,14 @@ pub fn run() -> Result<(), JsValue> {
     let a: JsValue = format!("{}", pub_k).as_str().into();
     web_sys::console::log_1(&a);
 
-    let p_public_key = document.create_element("p")?;
-    val.set_text_content(Some(format!("Have you seen me? {}", pub_k).as_str()));
+    let header = document.create_element("h1")?;
+    let val = document.create_element("p")?;
+
+    header.set_text_content(Some("Have you seen me?"));
+    val.set_text_content(Some(format!("{}", pub_k).as_str()));
+
+    body.append_child(&header)?;
+    body.append_child(&val)?;
 
     Ok(())
 }
