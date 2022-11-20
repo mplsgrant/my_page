@@ -9,7 +9,6 @@ crate-type = ["cdylib"]
 [dependencies]
 wasm-bindgen = "0.2.83"
 console_error_panic_hook = "0.1.7"
-
 js-sys = "0.3.60"
 
 [dependencies.web-sys]
@@ -36,6 +35,9 @@ features = [
   'WebGlVertexArrayObject',
   'Window',
 ]
+
+[build-dependencies]
+askama = "0.11.1"
 
 [profile.release]
 wasm-opt = false # Need this until: https://github.com/rustwasm/wasm-pack/pull/872
