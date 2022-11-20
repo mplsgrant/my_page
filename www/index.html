@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TITLE</title>
+  ﻿<link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <style>
+    html {background: rgb(20, 117, 117);}
+    canvas {
+        margin: 0px;
+        padding: 0px;
+        width: 1800px;
+        height: 900px;
+        overflow: hidden;
+        /*position: absolute;*/
+        background: rgb(20, 117, 117);
+        z-index: 0;
+        border: 10px dotted;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="scripts/my_page.js"></script>
+  <script>
+    const { greet } = wasm_bindgen;
+
+    async function run() {
+        let my_wasm = await wasm_bindgen("scripts/my_page_bg.wasm");
+        const thing = greet("hi from js");
+        alert(thing);
+    }
+    run().catch(console.error);
+  </script>
+</body>
+</html>
