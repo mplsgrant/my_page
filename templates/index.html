@@ -22,10 +22,12 @@
 <body>
   <script>{{js}}</script>
   <script>
+    let wasm64 = `data:application/wasm;base64,{{wasm64}}`;
+
     const { greet } = wasm_bindgen;
 
     async function run() {
-        let my_wasm = await wasm_bindgen("scripts/my_page_bg.wasm");
+        let my_wasm = await wasm_bindgen(wasm64);
         const thing = greet("hi from js");
         alert(thing);
     }
