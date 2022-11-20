@@ -1,9 +1,5 @@
 use askama::Template;
-use std::{
-    fs::{self, File},
-    path::Path,
-    process::Command,
-};
+use std::{fs, path::Path, process::Command};
 
 fn main() {
     #[derive(Template)]
