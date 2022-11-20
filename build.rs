@@ -12,7 +12,6 @@ fn main() {
     let out_dir = env::var_os("OUT_DIR").unwrap();
     println!("cargo:warning={:?}", out_dir);
 
-    // TODO Bring wasm in house
     // Generate wasm and js
     Command::new("wasm-bindgen")
         .arg("--target")

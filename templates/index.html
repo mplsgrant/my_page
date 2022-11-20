@@ -29,7 +29,7 @@
     async function run() {
         let my_wasm = await wasm_bindgen(wasm64);
         const thing = greet("hi from js");
-        alert(thing);
+        console.log(thing);
     }
     run().catch(console.error);
   </script>
