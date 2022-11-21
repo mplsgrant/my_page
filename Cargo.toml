@@ -36,6 +36,13 @@ features = [
   'WebGlUniformLocation',
   'WebGlVertexArrayObject',
   'Window',
+  'BinaryType',
+  'Blob',
+  'ErrorEvent',
+  'FileReader',
+  'MessageEvent',
+  'ProgressEvent',
+  'WebSocket'
 ]
 
 [build-dependencies]
