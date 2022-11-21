@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use bitcoin::{secp256k1::Secp256k1, KeyPair, Network, PrivateKey};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -21,9 +23,7 @@ pub fn run() -> Result<(), JsValue> {
     let s = [1u8; 32]; // 🤦
     let priv_k = PrivateKey::from_slice(&s, Network::Regtest).expect("priv_k");
     let pub_k = priv_k.public_key(&secp);
-    let a: JsValue = format!("{}", pub_k).as_str().into();
-    web_sys::console::log_1(&a);
-
+    other_log(pub_k);
     let header = document.create_element("h1")?;
     let val = document.create_element("p")?;
 
@@ -33,10 +33,14 @@ pub fn run() -> Result<(), JsValue> {
     body.append_child(&header)?;
     body.append_child(&val)?;
 
-    let mut client = Client::new("tcp://electrum.blockstream.info:50001")?;
-    let response = client.server_features()?;
+    start_websocket()?;
 
     Ok(())
+}
+
+fn other_log(msg: impl Display) {
+    let a: JsValue = format!("{}", msg).as_str().into();
+    web_sys::console::log_1(&a);
 }
 
 #[wasm_bindgen]
@@ -44,10 +48,21 @@ pub fn greet(name: &str) -> String {
     format!("Hello, {}!", name)
 }
 
+macro_rules! console_log {
+    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
+}
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
+
 #[wasm_bindgen]
 pub fn start_websocket() -> Result<(), JsValue> {
     // Connect to an echo server
-    let ws = WebSocket::new("wss://echo.websocket.events")?;
+    // let ws = WebSocket::new("wss://echo.websocket.events")?;
+    let ws = WebSocket::new("wss://localhost:3012")?;
     // For small binary messages, like CBOR, Arraybuffer is more efficient than Blob handling
     ws.set_binary_type(web_sys::BinaryType::Arraybuffer);
     // create callback
