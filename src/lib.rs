@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use bitcoin::{secp256k1::Secp256k1, KeyPair, Network, PrivateKey};
+use bitcoin::{secp256k1::Secp256k1, Network, PrivateKey};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::{ErrorEvent, MessageEvent, WebSocket};
@@ -62,7 +62,7 @@ extern "C" {
 pub fn start_websocket() -> Result<(), JsValue> {
     // Connect to an echo server
     // let ws = WebSocket::new("wss://echo.websocket.events")?;
-    let ws = WebSocket::new("wss://localhost:3012")?;
+    let ws = WebSocket::new("ws://localhost:9001")?;
     // For small binary messages, like CBOR, Arraybuffer is more efficient than Blob handling
     ws.set_binary_type(web_sys::BinaryType::Arraybuffer);
     // create callback

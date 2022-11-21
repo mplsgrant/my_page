@@ -1,10 +1,12 @@
 use askama::Template;
+use rand::Rng;
 use std::{env, fs, path::Path, process::Command, str};
 
 fn main() {
     #[derive(Template)]
     #[template(path = "index.html", escape = "none")]
     struct IndexTemplate {
+        id: u32, // Avoid cache annoyances while developing
         js: String,
         wasm64: String,
     }
@@ -38,8 +40,16 @@ fn main() {
     let js = fs::read_to_string(template_path).expect("we opened my_page.js");
 
     // Pack wasm & js into template
-    let index_template = IndexTemplate { js, wasm64 };
+    let mut rnd = rand::thread_rng();
+    let id: u32 = rnd.gen();
+    let index_template = IndexTemplate { id, js, wasm64 };
     let contents = index_template.render().unwrap();
+
+    // Delete old index.html
+    Command::new("rm")
+        .arg("www/index.html")
+        .output()
+        .expect("delete index.html");
 
     // Create index.html from template
     let index_path = Path::new("www").join("index.html");

@@ -47,6 +47,7 @@ features = [
 
 [build-dependencies]
 askama = "0.11.1"
+rand = "0.8.5"
 
 [profile.release]
 wasm-opt = false # Need this until: https://github.com/rustwasm/wasm-pack/pull/872
