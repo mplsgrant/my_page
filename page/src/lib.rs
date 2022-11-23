@@ -21,7 +21,7 @@ pub fn run() -> Result<(), JsValue> {
     // Bitcoin key pair
     let secp = Secp256k1::new();
     let s = [1u8; 32]; // 🤦
-    let priv_k = PrivateKey::from_slice(&s, Network::Regtest).expect("priv_k");
+    let priv_k = PrivateKey::from_slice(&s, Network::Bitcoin).expect("priv_k");
     let pub_k = priv_k.public_key(&secp);
     other_log(pub_k);
     let header = document.create_element("h1")?;
