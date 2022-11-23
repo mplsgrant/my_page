@@ -13,14 +13,8 @@ fn main() {
         .expect("Need to specify debug or release");
 
     let target_dir = match user_input.as_str() {
-        "debug" => {
-            println!("Matched debug");
-            "../target/wasm32-unknown-unknown/debug/page.wasm"
-        }
-        "release" => {
-            println!("Matched release");
-            "../target/wasm32-unknown-unknown/release/page.wasm"
-        }
+        "debug" => "../target/wasm32-unknown-unknown/debug/page.wasm",
+        "release" => "../target/wasm32-unknown-unknown/release/page.wasm",
         _ => {
             println!("Need to specify debug or release");
             panic!()

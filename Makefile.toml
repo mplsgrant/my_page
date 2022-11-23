@@ -5,9 +5,6 @@ CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
 # Make debug
 # ~$ cargo make
 # ------------------------------
-[tasks.clean-www]
-
-
 [tasks.format]
 install_crate = "rustfmt"
 command = "cargo"
