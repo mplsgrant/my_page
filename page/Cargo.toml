@@ -46,3 +46,6 @@ features = [
   'ProgressEvent',
   'WebSocket'
 ]
+
+[profile.release]
+wasm-opt = false
