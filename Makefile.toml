@@ -5,6 +5,9 @@ CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
 # Make debug
 # ~$ cargo make
 # ------------------------------
+[tasks.clean-www]
+
+
 [tasks.format]
 install_crate = "rustfmt"
 command = "cargo"
@@ -15,16 +18,14 @@ command = "cargo"
 args = ["build"]
 dependencies = ["format"]
 
-[tasks.make]
+[tasks.debug]
 dependencies = [
     "format",
     "build",
 ]
 
-# Runnaing "cargo make" without additional args causes cargo make to look to
-# tasks.default
 [tasks.default]
-alias = "make"
+alias = "debug"
 
 # ------------------------------
 # Make release

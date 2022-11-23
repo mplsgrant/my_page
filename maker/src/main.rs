@@ -1,6 +1,4 @@
 use askama::Template;
-use rand::Rng;
-
 use std::{env::current_dir, fs, path::Path, process::Command, str};
 
 use clap::{arg, command};
@@ -10,19 +8,28 @@ fn main() {
         .arg(arg!([name] "debug or release?").required(true))
         .get_matches();
 
-    // You can check the value provided by positional arguments, or option arguments
-    let user_input = matches.get_one::<String>("name").unwrap().as_str();
+    let user_input = matches
+        .get_one::<String>("name")
+        .expect("Need to specify debug or release");
 
-    let target_dir = match user_input {
-        "debug" => "../target/wasm32-unknown-unknown/debug/page.wasm",
-        "release" => "../target/wasm32-unknown-unknown/release/page.wasm",
-        _ => panic!(),
+    let target_dir = match user_input.as_str() {
+        "debug" => {
+            println!("Matched debug");
+            "../target/wasm32-unknown-unknown/debug/page.wasm"
+        }
+        "release" => {
+            println!("Matched release");
+            "../target/wasm32-unknown-unknown/release/page.wasm"
+        }
+        _ => {
+            println!("Need to specify debug or release");
+            panic!()
+        }
     };
 
     #[derive(Template)]
     #[template(path = "index.html", escape = "none")]
     struct IndexTemplate {
-        id: u32, // Avoid cache annoyances while developing
         js: String,
         wasm64: String,
     }
@@ -59,9 +66,7 @@ fn main() {
     let js = fs::read_to_string(template_path).expect("we opened_page.js");
 
     // Pack wasm & js into template
-    let mut rnd = rand::thread_rng();
-    let id: u32 = rnd.gen();
-    let index_template = IndexTemplate { id, js, wasm64 };
+    let index_template = IndexTemplate { js, wasm64 };
     let contents = index_template.render().unwrap();
 
     // Delete old index.html

@@ -9,7 +9,7 @@ CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
 [tasks.run]
 command = "cargo"
 args = ["run", "debug"]
-dependencies = ["make"]
+dependencies = ["debug"]
 
 [tasks.default]
 alias = "run"
@@ -20,7 +20,7 @@ alias = "run"
 # ~$ cargo make release
 # ------------------------------
 
-[tasks.run-release]
+[tasks.release]
 command = "cargo"
 args = ["run", "release"]
-dependencies = ["make"]
+dependencies = ["build-release"]
