@@ -13,8 +13,8 @@ fn main() {
         .expect("Need to specify debug or release");
 
     let target_dir = match user_input.as_str() {
-        "debug" => "../target/wasm32-unknown-unknown/debug/page.wasm",
-        "release" => "../target/wasm32-unknown-unknown/release/page.wasm",
+        "debug" => "../target/wasm32-unknown-unknown/debug/content.wasm",
+        "release" => "../target/wasm32-unknown-unknown/release/content.wasm",
         _ => {
             println!("Need to specify debug or release");
             panic!()
@@ -49,15 +49,17 @@ fn main() {
 
     // TODO Bring base64 in house
     let wasm64 = Command::new("base64")
-        .arg("templates/temp_assets/page_bg.wasm")
+        .arg("templates/temp_assets/content_bg.wasm")
         .output()
         .expect("base64")
         .stdout;
     let wasm64 = str::from_utf8(&wasm64).expect("wasm64").into();
 
     // Grab js
-    let template_path = Path::new("templates").join("temp_assets").join("page.js");
-    let js = fs::read_to_string(template_path).expect("we opened_page.js");
+    let template_path = Path::new("templates")
+        .join("temp_assets")
+        .join("content.js");
+    let js = fs::read_to_string(template_path).expect("we opened content.js");
 
     // Pack wasm & js into template
     let index_template = IndexTemplate { js, wasm64 };
@@ -65,7 +67,7 @@ fn main() {
 
     // Delete old index.html
     Command::new("rm")
-        .arg("www/index.html")
+        .arg("cartridge/index.html")
         .output()
         .expect("delete index.html");
 
@@ -77,6 +79,6 @@ fn main() {
         .expect("delete index.html");
 
     // Create index.html from template
-    let index_path = Path::new("www").join("index.html");
+    let index_path = Path::new("cartridge").join("index.html");
     fs::write(index_path, contents).expect("wrote to index.html");
 }

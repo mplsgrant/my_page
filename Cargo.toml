@@ -1,6 +1,6 @@
 [workspace]
 
 members = [
-    "page", # Place page first so `cargo make` compiles it before make makes it
-    "maker",
+    "content", # Place page first so `cargo make` compiles it before make makes it
+    "cartridge",
 ]
