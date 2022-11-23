@@ -6,13 +6,13 @@
 
 # Crate overview
 
-## page
+## content
 
 This crate holds the wasm code.
 
-## maker
+## cartridge
 
-This crate processes the page and presents it in its `www` directory.
+This crate processes the page and presents it in its `cartridge` directory.
 
 # Making
 
