@@ -1,0 +1,23 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+
+[tasks.format]
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--all", "--", "--check"]
+
+[tasks.build]
+command = "cargo"
+args = ["build"]
+dependencies = ["format"]
+
+[tasks.make]
+dependencies = [
+    "format",
+    "build",
+]
+
+# Runnaing "cargo make" without additional args causes cargo make to look to
+# tasks.default
+[tasks.default]
+alias = "make"

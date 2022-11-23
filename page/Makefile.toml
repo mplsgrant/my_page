@@ -1,0 +1,3 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+CARGO_MAKE_RUST_TARGET_ARCH = "wasm32-unknown-unkown"

@@ -1,5 +1,1 @@
 /target
-/Cargo.lock
-*.wasm
-www/index.html
-templates/temp_assets

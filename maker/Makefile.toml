@@ -1,0 +1,10 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+
+[tasks.run]
+command = "cargo"
+args = ["run"]
+dependencies = ["make"]
+
+[tasks.default]
+alias = "run"
