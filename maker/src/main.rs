@@ -1,8 +1,24 @@
 use askama::Template;
 use rand::Rng;
+
 use std::{env::current_dir, fs, path::Path, process::Command, str};
 
+use clap::{arg, command};
+
 fn main() {
+    let matches = command!() // requires `cargo` feature
+        .arg(arg!([name] "debug or release?").required(true))
+        .get_matches();
+
+    // You can check the value provided by positional arguments, or option arguments
+    let user_input = matches.get_one::<String>("name").unwrap().as_str();
+
+    let target_dir = match user_input {
+        "debug" => "../target/wasm32-unknown-unknown/debug/page.wasm",
+        "release" => "../target/wasm32-unknown-unknown/release/page.wasm",
+        _ => panic!(),
+    };
+
     #[derive(Template)]
     #[template(path = "index.html", escape = "none")]
     struct IndexTemplate {
@@ -24,7 +40,7 @@ fn main() {
         .arg("--no-typescript")
         .arg("--out-dir")
         .arg("templates/temp_assets/")
-        .arg("../target/wasm32-unknown-unknown/debug/page.wasm")
+        .arg(target_dir)
         .output()
         .expect("wasm-bindgen")
         .status;

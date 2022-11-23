@@ -1,6 +1,10 @@
 [env]
 CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
 
+# ------------------------------
+# Make debug
+# ~$ cargo make
+# ------------------------------
 [tasks.format]
 install_crate = "rustfmt"
 command = "cargo"
@@ -21,3 +25,23 @@ dependencies = [
 # tasks.default
 [tasks.default]
 alias = "make"
+
+# ------------------------------
+# Make release
+# ~$ cargo make release
+#-------------------------------
+[tasks.format-release]
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--all", "--", "--check"]
+
+[tasks.build-release]
+command = "cargo"
+args = ["build", "--release"]
+dependencies = ["format-release"]
+
+[tasks.release]
+dependencies = [
+    "format-release",
+    "build-release",
+]
