@@ -1,5 +1,5 @@
 [package]
-name = "page"
+name = "content"
 version = "0.1.0"
 edition = "2021"
 
@@ -46,3 +46,6 @@ features = [
   'ProgressEvent',
   'WebSocket'
 ]
+
+[profile.release]
+wasm-opt = false
