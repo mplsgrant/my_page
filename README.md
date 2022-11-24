@@ -12,7 +12,7 @@ This crate holds the wasm code.
 
 ## cartridge
 
-This crate processes the page and presents it in its `cartridge` directory.
+This crate processes the wasm into a cartridge.
 
 # Making
 
