@@ -26,13 +26,27 @@ fn main() {
     struct IndexTemplate {
         js: String,
         wasm64: String,
+        favicon64: String,
     }
 
     let pwd = current_dir().unwrap();
 
     // Create a folder for temp assets
     let new_dir = pwd.join("templates").join("temp_assets");
-    fs::create_dir(new_dir).expect("make a new dir");
+    match fs::create_dir(&new_dir) {
+        Ok(_) => {}
+        Err(err) => {
+            println!(
+                "The temp_assets directory may already exist, but by all rights it
+                 shouldn't. Going to try to delete it and recreate it, but it may
+                 be worth taking a moment to invesitage this oddity. The error
+                 alerting us to this is: {:?}",
+                err
+            );
+            fs::remove_dir_all(&new_dir).unwrap();
+            fs::create_dir(&new_dir).unwrap();
+        }
+    };
 
     // Generate wasm and js
     let wasm_bindgen = Command::new("wasm-bindgen")
@@ -56,13 +70,21 @@ fn main() {
     let wasm64 = str::from_utf8(&wasm64).expect("wasm64").into();
 
     // Grab js
-    let template_path = Path::new("templates")
+    let js_path = Path::new("templates")
         .join("temp_assets")
         .join("content.js");
-    let js = fs::read_to_string(template_path).expect("we opened content.js");
+    let js = fs::read_to_string(js_path).expect("we opened content.js");
+
+    // Grab favicon
+    let favicon_path = Path::new("templates").join("favicon.base64");
+    let favicon64 = fs::read_to_string(favicon_path).expect("we opened favicon.base64");
 
     // Pack wasm & js into template
-    let index_template = IndexTemplate { js, wasm64 };
+    let index_template = IndexTemplate {
+        js,
+        wasm64,
+        favicon64,
+    };
     let contents = index_template.render().unwrap();
 
     // Delete old index.html
